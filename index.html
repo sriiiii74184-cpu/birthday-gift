@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday 🎂</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        text-align: center;
+        overflow-x: hidden;
+    }
+
+    .container {
+        padding: 20px;
+        margin-top: 50px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        color: #fff;
+    }
+
+    p {
+        font-size: 1.2rem;
+        color: #fff;
+        margin: 15px;
+    }
+
+    button {
+        padding: 12px 25px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 25px;
+        background: #ff4081;
+        color: white;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+
+    button:hover {
+        background: #e91e63;
+    }
+
+    canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+    }
+
+    @media (max-width: 600px) {
+        h1 {
+            font-size: 2rem;
+        }
+        p {
+            font-size: 1rem;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="container">
+    <h1>🎉 Happy Birthday! 🎂</h1>
+    <p>Wishing you a day filled with love, joy, and lots of happiness 💖</p>
+    <button onclick="startConfetti()">Celebrate 🎊</button>
+</div>
+
+<script>
+const canvas = document.getElementById('confetti');
+const ctx = canvas.getContext('2d');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let confetti = [];
+
+function ConfettiPiece() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height - canvas.height;
+    this.size = Math.random() * 8 + 2;
+    this.speed = Math.random() * 3 + 2;
+    this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+}
+
+function createConfetti() {
+    for (let i = 0; i < 150; i++) {
+        confetti.push(new ConfettiPiece());
+    }
+}
+
+function drawConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    confetti.forEach((c, index) => {
+        ctx.fillStyle = c.color;
+        ctx.fillRect(c.x, c.y, c.size, c.size);
+        c.y += c.speed;
+
+        if (c.y > canvas.height) {
+            confetti[index] = new ConfettiPiece();
+            confetti[index].y = 0;
+        }
+    });
+    requestAnimationFrame(drawConfetti);
+}
+
+function startConfetti() {
+    confetti = [];
+    createConfetti();
+    drawConfetti();
+}
+
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>
